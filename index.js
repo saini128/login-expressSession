@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../models/user');
+var User = require('./userModel');
 var bcrypt = require('bcrypt');
 
 router.get('/', function (req, res, next) {
@@ -93,7 +93,7 @@ router.get('/profile', function (req, res, next) {
 		console.log("data");
 		console.log(data);
 		if(!data){
-			res.redirect('/');
+			res.redirect('/login');
 		}else{
 			
 			return res.render('data.ejs', {"name":data.firstName+" "+data.lastName,"email":data.email});
@@ -109,7 +109,7 @@ router.get('/logout', function (req, res, next) {
     	if (err) {
     		return next(err);
     	} else {
-    		return res.redirect('/');
+    		return res.redirect('/login');
     	}
     });
 }

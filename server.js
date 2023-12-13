@@ -26,7 +26,7 @@ db.once('open', function () {
 });
 
 app.use(session({
-  secret: 'work hard',
+  secret: 'be667c0b96bac8c1c43d877ad56334763dc92a65701dbcd927c3a583068d04a1',
   resave: true,
   saveUninitialized: false,
   store: new MongoStore({
@@ -36,13 +36,12 @@ app.use(session({
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');	
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(__dirname + '/views'));
 
-var index = require('./routes/index');
+var index = require('./index');
 app.use('/', index);
 
 app.use(function (req, res, next) {
