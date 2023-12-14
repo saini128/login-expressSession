@@ -34,7 +34,7 @@ router.post('/', function(req, res, next) {
 			  bcrypt.hash(personInfo.password, 10, function (err, hashedPassword) {
 				if (err) {
 				  console.log(err);
-				  res.send({"Success": "An error occurred while creating the user."});
+				  res.send({"Success": "Error occurred"});
 				} else {
 				  var newPerson = new User({
 					unique_id: c,
@@ -47,21 +47,21 @@ router.post('/', function(req, res, next) {
 				  newPerson.save(function (err, Person) {
 					if (err) {
 					  console.log(err);
-					  res.send({"Success": "An error occurred while creating the user."});
+					  res.send({"Success": "Error occurred"});
 					} else {
 					  console.log('Success');
-					  res.send({"Success": "You are registered, you can login now."});
+					  res.send({"Success": "User registered, you can proceed to login ."});
 					}
 				  });
 				}
 			  });
 			}).sort({_id: -1}).limit(1);
 		  } else {
-			res.send({"Success": "Email is already used."});
+			res.send({"Success": "Email already used."});
 		  }
 		});
 	  } else {
-		res.send({"Success": "Password is not matched."});
+		res.send({"Success": "Password not matched."});
 	  }
 	}
   });
@@ -82,7 +82,7 @@ router.post('/', function(req, res, next) {
 		  }
 		});
 	  } else {
-		res.send({"Success": "This Email Is not registered!"});
+		res.send({"Success": "Email not registered!"});
 	  }
 	});
   });
@@ -115,35 +115,35 @@ router.get('/logout', function (req, res, next) {
 }
 });
 
-router.get('/forgetpass', function (req, res, next) {
+router.get('/passreset', function (req, res, next) {
 	res.render("forget.ejs");
 });
 
-router.post('/forgetpass', function (req, res, next) {
+router.post('/passreset', function (req, res, next) {
 	User.findOne({ email: req.body.email }, function (err, data) {
 	  if (!data) {
-		res.send({ "Success": "This Email Is not registered!" });
+		res.send({ "Success": "Email  not registered!" });
 	  } else {
 		if (req.body.password === req.body.passwordConf) {
 		  bcrypt.hash(req.body.password, 10, function (err, hashedPassword) {
 			if (err) {
 			  console.log(err);
-			  res.send({ "Success": "An error occurred while changing the password." });
+			  res.send({ "Success": "Error occurred" });
 			} else {
 			  data.password = hashedPassword;
 			  data.save(function (err, Person) {
 				if (err) {
 				  console.log(err);
-				  res.send({ "Success": "An error occurred while changing the password." });
+				  res.send({ "Success": "Error occurred" });
 				} else {
 				  console.log('Success');
-				  res.send({ "Success": "Password changed!" });
+				  res.send({ "Success": "Password changed successfully!" });
 				}
 			  });
 			}
 		  });
 		} else {
-		  res.send({ "Success": "Password does not match! Both passwords should be the same." });
+		  res.send({ "Success": "Password does not match!" });
 		}
 	  }
 	});

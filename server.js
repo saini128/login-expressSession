@@ -14,9 +14,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/users_db', {
   useUnifiedTopology: true
 }, (err) => {
   if (!err) {
-    console.log('MongoDB Connection Succeeded.');
+    console.log('Connected to MongoDB');
   } else {
-    console.log('Error in DB connection : ' + err);
+    console.log('Error in connection towards MongoDB : ' + err);
   }
 });
 
@@ -59,5 +59,5 @@ app.use(function (err, req, res, next) {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function () {
-  console.log('Server is started on http://127.0.0.1:'+PORT);
+  console.log('Server running at http://127.0.0.1:'+PORT);
 });
