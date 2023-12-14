@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var bcrypt = require('bcrypt');
+const cors = require('cors');
 
 mongoose.connect('mongodb://127.0.0.1:27017/users_db', {
   useNewUrlParser: true,
@@ -31,9 +32,12 @@ app.use(session({
   saveUninitialized: false,
   store: new MongoStore({
     mongooseConnection: db
-  })
+  }),
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week in milliseconds
+  }
 }));
-
+app.use(cors());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');	
 app.use(bodyParser.json());
