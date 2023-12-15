@@ -50,7 +50,7 @@ router.post('/', function(req, res, next) {
 					  res.send({"Success": "Error occurred"});
 					} else {
 					  console.log('Success');
-					  res.send({"Success": "User registered, you can proceed to login ."});
+					  res.send({"Success": "User registered, you can proceed to login."});
 					}
 				  });
 				}
@@ -73,9 +73,20 @@ router.post('/', function(req, res, next) {
   router.post('/login', function (req, res, next) {
 	User.findOne({ email: req.body.email }, function (err, data) {
 	  if (data) {
+		console.log("LOGIN");
+		console.log(req.body);
 		bcrypt.compare(req.body.password, data.password, function (err, result) {
 		  if (result === true) {
 			req.session.userId = data.unique_id;
+			// console.log(req.body.stayLogged);
+			if(req.body.stayLogged=="True")
+			{
+				req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
+			}
+			else
+			{
+				req.session.cookie.expires = false;
+			}
 			res.send({"Success": "Success!"});
 		  } else {
 			res.send({"Success": "Wrong password!"});
